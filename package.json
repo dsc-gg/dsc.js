@@ -1,6 +1,6 @@
 {
   "name": "dsc.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "The official Javascript wrapper for the dsc.gg API",
   "main": "index.js",
   "scripts": {
