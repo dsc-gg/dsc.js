@@ -7,7 +7,7 @@
 
 The official Javascript wrapper for the dsc.gg API
 
-To use this package, you need to create a developer app <a href="https://dsc.gg/developer">here</a> and grab the API token. This token is required for all API requests.
+To use this package, you need to create a developer app <a href="https://dsc.gg/developers/dashboard">here</a> and grab the API token. This token is required for all API requests.
 
 
 ## Install instructions
@@ -30,10 +30,7 @@ Install with Yarn
 ```js
 const Link = require("dsc.js");
 
-const client = new Link.Client({
-    api_key: "Your API token",
-    version: 2
-})
+const client = new Link.Client("Your API token")
 ```
 
 
@@ -42,69 +39,96 @@ const client = new Link.Client({
 **Fetch information on a dsc.gg link**
 
 ```js
-client.fetchLink('link_ending').then((link) => {
+var link = await client.fetchLink('link_ending')
 console.log(link)
-});
 ```
 
 **Fetch information on a dsc.gg user**
 
 ```js
-client.fetchUser('user_id').then((user) => {
+var user = await client.fetchUser('user_id')
 console.log(user)
-});
+```
+
+**Fetch a dsc.gg user's links**
+
+```js
+var links = await client.fetchUserLinks('user_id')
+console.log(links)
+```
+
+**Fetch a dsc.gg user's developer apps**
+
+```js
+var apps = await client.fetchUserApps('user_id')
+console.log(apps)
+```
+
+**Fetch information on a dsc.gg developer app**
+
+```js
+var app = await client.fetchApp('app_id')
+console.log(app)
+```
+
+**Fetch the top dsc.gg links**
+
+```js
+var top_links = await client.fetchTopLinks()
+console.log(top_links)
 ```
 
 **Search for dsc.gg links**
 
 ```js
-client.search('search_query').then((results) => {
+var results = await client.search('search_query', {
+    type: 'bot', //optional - can be bot, server, or template
+    limit: 10, //optional - limit the # of results that will be returned
+})
 console.log(results)
-});
 ```
 
 **Create a dsc.gg link**
 
 ```js
-client.createLink({
+var response = await client.createLink({
     link: 'link_ending',
     type: 'server', //this can be server, bot, template or link
-    redirect: 'link_redirect',
-    unlisted: false, //optional
-    password: 'some_password', //optional
-    meta_title: 'some embed title', //optional
-    meta_description: 'some embed description', //optional
-    meta_image: 'some image url' //optional
-
-}).then((val) => {
-    console.log(val)
-});
+    redirect: 'something', //the redirect of the link
+    unlisted: false, //true or false
+    password: 'some_password', //optional - exclude this for no password
+    meta: {
+        title: 'some embed title', //optional
+        description: 'some embed description', //optional
+        image: 'some image url' //optional
+    }
+})
+console.log(response)
 ```
 
 **Update a dsc.gg link**
 
 ```js
-client.updateLink({
+var response = await client.updateLink({
     link: 'link_ending',
     type: 'server', //this can be server, bot, template or link
-    redirect: 'link_redirect',
-    unlisted: false, //optional
-    password: 'some_password', //optional
-    meta_title: 'some embed title', //optional
-    meta_description: 'some embed description', //optional
-    meta_image: 'some image url' //optional
-
-}).then((val) => {
-    console.log(val)
-});
+    redirect: 'something', //the redirect of the link
+    unlisted: false, //true or false
+    password: 'some_password', //optional - exclude this for no password
+    meta: {
+        title: 'some embed title', //optional
+        description: 'some embed description', //optional
+        image: 'some image url' //optional
+    }
+})
+console.log(response)
 ```
 
 **Delete a dsc.gg link**
 
 ```js
-client.deleteLink('link_ending').then((val) => {
-    console.log(val)
-});
+var response = await client.deleteLink('link_ending')
+console.log(response)
 ```
 
 
@@ -114,14 +138,13 @@ client.deleteLink('link_ending').then((val) => {
 ```js
 const Link = require("dsc.js");
 
-const client = new Link.Client({
-    api_key: "Your API token",
-    version: 2
-})
+const client = new Link.Client("Your API token")
 
 var input = 'gaming'
 
-client.search(input).then((results) => {
-console.log(`First result: https://dsc.gg/${results[0]._id}`)
-});
+var results = await client.search(input, {
+    type: 'server',
+    limit: 10
+})
+console.log(results[0])
 ```
