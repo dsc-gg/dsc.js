@@ -65,7 +65,6 @@ class Client {
     }
 
     async updateLink(request) {
-        console.log(request);
         if (typeof request.link != "string") throw new TypeError('argument "link" should be a string');
         if (typeof request.type != "string") throw new TypeError('argument "type" should be a string');
         if (typeof request.redirect != "string") throw new TypeError('argument "redirect" should be a string');
